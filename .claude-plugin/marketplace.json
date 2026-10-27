@@ -1,0 +1,28 @@
+{
+  "name": "labopsai-sled",
+  "owner": {
+    "name": "labopsai"
+  },
+  "metadata": {
+    "description": "Капсула labopsai «След» — встреча → протокол → задачи: решения, задачи с ответственными и сроками, задачи в Битрикс24 и напоминания",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "sled",
+      "source": "./plugins/sled",
+      "description": "След — встреча → протокол → задачи: решения, задачи с ответственными и сроками, задачи в Битрикс24 и напоминания в календарь после твоего «да»",
+      "version": "0.1.0",
+      "category": "productivity",
+      "keywords": [
+        "meetings",
+        "protocol",
+        "tasks",
+        "bitrix24",
+        "granola",
+        "calendar",
+        "ics"
+      ]
+    }
+  ]
+}

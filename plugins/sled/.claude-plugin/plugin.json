@@ -1,0 +1,11 @@
+{
+  "name": "sled",
+  "version": "0.1.0",
+  "description": "След — встреча → протокол → задачи: решения, задачи с ответственными и сроками, задачи в Битрикс24 и напоминания в календарь только после твоего «да». По фразе «разбери встречу».",
+  "author": {
+    "name": "labopsai"
+  },
+  "homepage": "https://labopsai.pro",
+  "license": "MIT",
+  "keywords": ["meetings", "protocol", "tasks", "bitrix24", "granola", "calendar", "ics"]
+}

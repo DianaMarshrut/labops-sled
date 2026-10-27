@@ -1,0 +1,7 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+REPORT-*.md
+TEST-RESULTS.txt
+ZIP-VERIFICATION.txt
+DIFF-SUMMARY.txt
