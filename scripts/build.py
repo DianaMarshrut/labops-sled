@@ -1,8 +1,8 @@
 """Build distributables for the sled capsule.
 
 Produces:
-  dist/sled.zip           -- skill folder for upload to claude.ai.
-  chat-instruction-sled.md -- merged instruction for ChatGPT / DeepSeek.
+  dist/sled.zip        -- skill folder for upload to claude.ai.
+  chat-instruction.md  -- merged instruction for ChatGPT / Codex.
 
 Usage: python3 scripts/build.py
 """
@@ -24,18 +24,11 @@ DIST = REPO / "dist"
 ZIP_DATE = (2026, 1, 1, 0, 0, 0)
 
 SLED_REFERENCES: list[tuple[str, str]] = [
-    ("references/setup.md", "Приложение 1. Настройка один раз"),
-    ("references/sources.md", "Приложение 2. Откуда берём встречу"),
-    ("references/tasks.md", "Приложение 3. Задачи из протокола"),
-    ("references/reminders.md", "Приложение 4. Напоминания"),
+    ("references/sources.md", "Приложение 1. Откуда берём встречу и куда ставим задачи"),
 ]
 SLED_TEMPLATES: list[tuple[str, str, str]] = [
-    ("templates/protocol.md", "Приложение 5. Шаблон протокола", "markdown"),
-    ("templates/reminder.ics", "Приложение 6. Шаблон файла .ics", "text"),
+    ("templates/protocol.md", "Приложение 2. Шаблон протокола", "markdown"),
 ]
-SLED_SCRIPT_NOTE = "`sled.py` из плагина «След»"
-
-
 def build_zip(skill_dir: Path, out: Path) -> Path:
     """Zip the skill folder so that the folder itself is the archive root."""
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -68,8 +61,6 @@ def _sled_links(text: str) -> str:
     """Point file references of the sled skill at appendices of the merged text."""
     for rel, title in SLED_REFERENCES + [(r, t) for r, t, _ in SLED_TEMPLATES]:
         text = text.replace(f"`{rel}`", f"«{title.split('. ', 1)[0]}» ниже")
-    text = text.replace("`scripts/sled.py`", SLED_SCRIPT_NOTE)
-    text = text.replace("scripts/sled.py", "sled.py")
     for old, new in (("шаблон «Приложение", "шаблон из «Приложения"),
                      ("по шаблону «Приложение", "по шаблону из «Приложения"),
                      ("Заполни «Приложение", "Заполни шаблон из «Приложения"),
@@ -86,16 +77,13 @@ def build_sled_chat_instruction(skill_dir: Path, out: Path) -> Path:
     parts = [
         "# Инструкция для чата: капсула «След» от labopsai",
         "",
-        "Вставь весь этот текст в инструкции проекта (Claude, ChatGPT) или первым сообщением "
-        "в новый чат (DeepSeek и другие), либо приложи файлом и напиши: «Работай по этой "
-        "инструкции». Затем — «разбери встречу» и текст встречи (или встреча из Granola, "
-        "если она подключена).",
+        "Добавь этот файл в проект ChatGPT или Codex (файлом или в инструкции проекта) "
+        "и напиши: «Работай по инструкции из файлов проекта». Затем — «разбери встречу» "
+        "и текст встречи (или встреча из Granola, если она подключена).",
         "",
         "Ты работаешь в обычном чате. Встречу берёшь из встроенного коннектора (если он есть "
         "в этом чате) или из текста и файла, которые прислал пользователь. Других доступов "
-        "к системам пользователя у тебя нет; ничего не записываешь без его «да». Скрипт "
-        "`sled.py` есть только в плагине для Claude Code и в навыке Claude — в обычном чате "
-        "делай то же по шаблонам и правилам из приложений.",
+        "к системам пользователя у тебя нет; ничего не записываешь без его «да».",
         "",
         "---",
         "",
@@ -117,4 +105,4 @@ def build_sled_chat_instruction(skill_dir: Path, out: Path) -> Path:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     build_zip(SLED_DIR, DIST / "sled.zip")
-    build_sled_chat_instruction(SLED_DIR, REPO / "chat-instruction-sled.md")
+    build_sled_chat_instruction(SLED_DIR, REPO / "chat-instruction.md")
